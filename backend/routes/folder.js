@@ -9,5 +9,6 @@ router.post('/', auth, folderController.createFolder);
 // Get Folders
 router.get('/all/:parentId?', auth, folderController.getAllFolderData);
 router.get('/:id?', auth, folderController.getFolders);
+router.delete('/', auth, folderController.deleteFolder);
 
 module.exports = router;

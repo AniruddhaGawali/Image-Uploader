@@ -47,3 +47,19 @@ exports.getAllFolderData = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+exports.deleteFolder = async (req, res) => {
+  try {
+    if (!req.query.id)
+      return res.status(400).json({ msg: 'Folder ID is required' });
+
+    const folder = await Folder.findByIdAndDelete(req.query.id);
+    await Image.deleteMany({ folder });
+    await Folder.deleteMany({ parent: req.query.id });
+
+    res.json({ msg: 'Folder removed', folder });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};

@@ -1,9 +1,9 @@
 'use client';
 import DriveNavbar from '@/components/driveNavbar';
 import React, { useEffect, useState } from 'react';
-import { createFolder, getAllFolderData } from '@/api/folder';
-import { uploadImage } from '@/api/image';
-import { Folder } from 'lucide-react';
+import { createFolder, getAllFolderData, deleteFolder } from '@/api/folder';
+import { uploadImage, deleteImage } from '@/api/image';
+import { Download, Folder, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import Link from 'next/link';
 
@@ -16,7 +16,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import Image from 'next/image';
-import getBase64 from '@/lib/tobase64';
+import getBase64, { downloadBase64Image } from '@/lib/tobase64';
+import { Button } from '@/components/ui/button';
 
 function Drive({}: Props) {
   const [currentData, setCurrentData] = useState<Current[]>([]);
@@ -116,6 +117,38 @@ function Drive({}: Props) {
                       <div>
                         <span className="font-bold">Created at:</span>{' '}
                         {moment(data.createdAt).format('MMMM Do YYYY, h:mm:ss')}
+                      </div>
+                      <div className="flex items-center w-fit mt-5 p-2 gap-3">
+                        <Button
+                          className="p-2"
+                          variant="destructive"
+                          onClick={async () => {
+                            if (data.image) {
+                              const res = await deleteImage(data._id);
+                              if (res) {
+                                await fetchData();
+                              }
+                            } else {
+                              const res = await deleteFolder(data._id);
+                              if (res) {
+                                await fetchData();
+                              }
+                            }
+                          }}
+                        >
+                          <Trash2 />
+                        </Button>
+                        {data.image && (
+                          <Button
+                            className="p-2"
+                            variant="secondary"
+                            onClick={() => {
+                              downloadBase64Image(data.image, data.name);
+                            }}
+                          >
+                            <Download />
+                          </Button>
+                        )}
                       </div>
                     </TooltipContent>
                   </Tooltip>

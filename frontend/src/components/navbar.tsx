@@ -10,7 +10,7 @@ function Navbar({}: Props) {
   const { auth, logout } = useContext(AuthContext);
 
   return (
-    <header className="fixed top-0 left-0 flex justify-between items-center w-full h-16 bg-white text-black shadow-sm px-10">
+    <header className="fixed z-50 top-0 left-0 flex justify-between items-center w-full h-16 bg-white text-black shadow-sm px-10">
       <h1 className="text-2xl font-bold text-black primary-gradient bg-clip-text text-transparent">
         IU
       </h1>

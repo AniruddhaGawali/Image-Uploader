@@ -27,3 +27,12 @@ export const getAllFolderData = async (parentId: string) => {
     console.error('Get folders error:', error);
   }
 };
+
+export const deleteFolder = async (id: string) => {
+  try {
+    const response = await axiosInstance.delete(`/folder/?id=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Delete folder error:', error);
+  }
+};

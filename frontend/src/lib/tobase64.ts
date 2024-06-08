@@ -15,3 +15,13 @@ function getBase64(file: File): Promise<string | null> {
 }
 
 export default getBase64;
+
+
+export function downloadBase64Image(base64: string, filename: string) {
+  const link = document.createElement('a');
+  link.href = base64;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

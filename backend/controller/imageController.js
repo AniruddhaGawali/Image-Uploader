@@ -31,3 +31,16 @@ exports.getImages = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+exports.deleteImage = async (req, res) => {
+  try {
+    if (!req.query.id)
+      return res.status(400).json({ msg: 'Image ID is required' });
+    const image = await Image.findByIdAndDelete(req.query.id);
+
+    res.json({ msg: 'Image removed', image });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};

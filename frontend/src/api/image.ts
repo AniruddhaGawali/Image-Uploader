@@ -20,7 +20,15 @@ export const uploadImage = async (
 export const searchImages = async (query: string) => {
   try {
     const response = await axiosInstance.get(`/image/${query}`);
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Search images error:', error);
+  }
+};
+
+export const deleteImage = async (id: string) => {
+  try {
+    const response = await axiosInstance.delete(`/image/?id=${id}`);
     return response.data;
   } catch (error) {
     console.error('Search images error:', error);
