@@ -140,15 +140,3 @@ const FolderSchema = new mongoose.Schema({
 ## Authentication
 
 JWT tokens are used for user authentication during signup and login. This ensures secure access to the user's resources.
-
-## Deployment
-
-The code must be pushed to a GitHub repository and deployed. The deployed application's link along with the login credentials should be provided upon submission.
-
-## Contact
-
-Feel free to contact if you have any queries.
-
-## Deadline
-
-Submission Deadline: 10 June, 2024 11:00 PM
