@@ -7,6 +7,7 @@ const auth = require('../middleware');
 router.post('/', auth, folderController.createFolder);
 
 // Get Folders
-router.get('/:parentId?', auth, folderController.getFolders);
+router.get('/all/:parentId?', auth, folderController.getAllFolderData);
+router.get('/:id?', auth, folderController.getFolders);
 
 module.exports = router;

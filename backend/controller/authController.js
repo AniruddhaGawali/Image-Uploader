@@ -30,11 +30,11 @@ exports.signup = async (req, res) => {
 
     jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json({ token, user });
     });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ error: 'Server Error' });
   }
 };
 
@@ -61,10 +61,21 @@ exports.login = async (req, res) => {
         id: user.id,
       },
     };
+
     jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json({ token, user });
     });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.loginToken = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

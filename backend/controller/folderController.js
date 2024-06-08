@@ -1,4 +1,5 @@
 const Folder = require('../model/Folder');
+const Image = require('../model/Image');
 
 exports.createFolder = async (req, res) => {
   const { name, parent } = req.body;
@@ -20,13 +21,29 @@ exports.createFolder = async (req, res) => {
 // Get Folders
 exports.getFolders = async (req, res) => {
   try {
-    const folders = await Folder.find({
-      user: req.user.id,
-      parent: req.params.parentId || null,
-    });
+    const folders = await Folder.findById(req.params.id);
     res.json(folders);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+exports.getAllFolderData = async (req, res) => {
+  try {
+    const folders = await Folder.find({
+      user: req.user.id,
+      parent: req.params.parentId || null,
+    }).select('_id name parent createdAt');
+
+    const images = await Image.find({
+      user: req.user.id,
+      folder: req.params.parentId || null,
+    }).select('_id name image folder createdAt');
+
+    res.json([...folders, ...images]);
+  } catch (err) {
+    console.error(err);
     res.status(500).send('Server error');
   }
 };

@@ -5,7 +5,7 @@ const imageController = require('../controller/imageController');
 const auth = require('../middleware');
 
 
-router.get('/:id?',auth, imageController.getImages);
 router.post('/upload', auth,imageController.createImage);
+router.get('/:folderId?',auth, imageController.getImages);
 
 module.exports = router;

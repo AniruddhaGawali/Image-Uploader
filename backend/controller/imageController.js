@@ -1,13 +1,13 @@
 const Image = require('../model/Image');
 
 exports.createImage = async (req, res) => {
-  const { name, folder, image } = req.body;
+  let { name, folder, image } = req.body;
 
   try {
     const NewImage = Image({
       name,
       image,
-      folder,
+      folder: folder ? folder : null,
       user: req.user.id,
     });
 
@@ -21,12 +21,10 @@ exports.createImage = async (req, res) => {
 
 exports.getImages = async (req, res) => {
   try {
-    console.log(req.user.id, req.params.id);
-    console.log(req);
     const images = await Image.find({
       user: req.user.id,
-      folder: req.params.id,
-    });
+      folder: req.params.folderId ? req.params.folderId : null,
+    }).select('_id name image folder createdAt');
     res.json(images);
   } catch (err) {
     console.error(err.message);
